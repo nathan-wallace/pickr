@@ -23,9 +23,14 @@ module.exports = {
     },
 
     devServer: {
-        static: '.',
+        static: {directory: '.', watch: false},
+        watchFiles: ['src/**/*', 'index.html'],
         host: '0.0.0.0',
-        port: 3006
+        port: 3006,
+        watchOptions: {
+            ignored: /node_modules/,
+            poll: 1000
+        }
     },
 
     module: {
