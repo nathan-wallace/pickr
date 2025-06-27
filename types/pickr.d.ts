@@ -66,6 +66,9 @@ declare namespace Pickr {
         comparison?: boolean;
         default?: string;
         swatches?: Array<string> | null;
+        wheel?: {
+            rings?: number;
+        };
         defaultRepresentation?: Representation;
         showAlways?: boolean;
         closeWithKey?: string;
@@ -143,7 +146,7 @@ declare namespace Pickr {
         'cancel' |
         'swatchselect';
 
-    type Theme = 'classic' | 'monolith' | 'nano';
+    type Theme = 'classic' | 'monolith' | 'nano' | 'wheel';
 
     type Position =
         'top-start' |

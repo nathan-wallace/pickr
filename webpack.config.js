@@ -8,7 +8,8 @@ module.exports = {
         'dist/pickr.es5.min': './src/js/pickr.js',
         'dist/themes/classic.min': './src/scss/themes/classic.scss',
         'dist/themes/nano.min': './src/scss/themes/nano.scss',
-        'dist/themes/monolith.min': './src/scss/themes/monolith.scss'
+        'dist/themes/monolith.min': './src/scss/themes/monolith.scss',
+        'dist/themes/wheel.min': './src/scss/themes/wheel.scss'
     },
 
     output: {
@@ -22,9 +23,14 @@ module.exports = {
     },
 
     devServer: {
-        static: '.',
+        static: {directory: '.', watch: false},
+        watchFiles: ['src/**/*', 'index.html'],
         host: '0.0.0.0',
-        port: 3006
+        port: 3006,
+        watchOptions: {
+            ignored: /node_modules/,
+            poll: 1000
+        }
     },
 
     module: {
