@@ -32,7 +32,11 @@ module.exports = {
             }
         },
         host: '0.0.0.0',
-        port: 3006
+        port: 3006,
+        watchOptions: {
+            ignored: /node_modules/,
+            poll: 1000
+        }
     },
 
     module: {
