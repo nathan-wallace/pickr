@@ -43,6 +43,10 @@ export default instance => {
             </div>
           </div>
 
+          <div :obj="wheel" class="pcr-wheel">
+            <svg :ref="svg" class="pcr-wheel-svg" role="listbox" aria-label="${t('aria:palette')}"></svg>
+          </div>
+
           <div class="pcr-swatches ${components.palette ? '' : 'pcr-last'}" :ref="swatches"></div>
 
           <div :obj="interaction" class="pcr-interaction" ${hidden(Object.keys(components.interaction).length)}>

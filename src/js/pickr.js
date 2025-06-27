@@ -56,6 +56,9 @@ export default class Pickr {
 
         i18n: {},
         swatches: null,
+        wheel: {
+            rings: 3
+        },
         inline: false,
         sliders: null,
 
@@ -103,7 +106,8 @@ export default class Pickr {
     constructor(opt) {
 
         // Assign default values
-        this.options = opt = Object.assign({...Pickr.DEFAULT_OPTIONS}, opt);
+        this.options = opt = Object.assign({}, Pickr.DEFAULT_OPTIONS, opt);
+        opt.wheel = Object.assign({}, Pickr.DEFAULT_OPTIONS.wheel, opt.wheel);
 
         const {swatches, components, theme, sliders, lockOpacity, padding} = opt;
 
@@ -374,6 +378,9 @@ export default class Pickr {
         };
 
         this._components = components;
+
+        // Build radial wheel if enabled
+        this._buildWheel();
     }
 
     _bindEvents() {
@@ -728,6 +735,67 @@ export default class Pickr {
         // This cleans all of them to avoid detached DOMs
         Object.keys(this)
             .forEach(key => this[key] = null);
+    }
+
+    _buildWheel() {
+        const {wheel, swatches} = this.options;
+        if (!wheel) {
+            return;
+        }
+
+        const svg = this._root.wheel.svg;
+        if (!svg) {
+            return;
+        }
+
+        const rings = wheel.rings || 3;
+        const baseColors = (swatches && swatches.length) ? swatches : [
+            '#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#009688', '#4caf50', '#ff9800'
+        ];
+
+        const size = 100;
+        const center = size / 2;
+        const ringStep = center / rings;
+        svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
+        svg.innerHTML = '';
+
+        const arc = (rin, rout, start, end) => {
+            const large = end - start > Math.PI ? 1 : 0;
+            const sx = center + rout * Math.cos(start);
+            const sy = center + rout * Math.sin(start);
+            const ex = center + rout * Math.cos(end);
+            const ey = center + rout * Math.sin(end);
+            const sx2 = center + rin * Math.cos(end);
+            const sy2 = center + rin * Math.sin(end);
+            const ex2 = center + rin * Math.cos(start);
+            const ey2 = center + rin * Math.sin(start);
+            return `M ${sx} ${sy} A ${rout} ${rout} 0 ${large} 1 ${ex} ${ey} L ${sx2} ${sy2} A ${rin} ${rin} 0 ${large} 0 ${ex2} ${ey2} Z`;
+        };
+
+        const segAngle = 2 * Math.PI / baseColors.length;
+
+        baseColors.forEach((c, i) => {
+            const base = HSVaColor(...parseToHSVA(c).values);
+            for (let r = 0; r < rings; r++) {
+                const rin = r * ringStep;
+                const rout = (r + 1) * ringStep;
+                const factor = 1 - r / rings;
+                const col = base.clone();
+                col.v = Math.min(100, col.v * factor);
+
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', arc(rin, rout, i * segAngle, (i + 1) * segAngle));
+                path.setAttribute('fill', col.toRGBA().toString(0));
+                this._eventBindings.push(
+                    _.on(path, 'click', () => {
+                        this.setColor(col.toRGBA().toString(0), true);
+                        this._emit('change', this._color, 'wheel', this);
+                        this._emit('changestop', 'wheel', this);
+                    })
+                );
+                svg.appendChild(path);
+            }
+        });
     }
 
     /**
