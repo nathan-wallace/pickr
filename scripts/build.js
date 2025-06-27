@@ -17,7 +17,8 @@ const path = require('path');
         entry: {
             'classic': path.resolve('./src/scss/themes/classic.scss'),
             'monolith': path.resolve('./src/scss/themes/monolith.scss'),
-            'nano': path.resolve('./src/scss/themes/nano.scss')
+            'nano': path.resolve('./src/scss/themes/nano.scss'),
+            'wheel': path.resolve('./src/scss/themes/wheel.scss')
         },
 
         output: {

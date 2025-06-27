@@ -131,7 +131,7 @@ Be sure to load the `pickr.min.js` (or the es5 version) **after** `pickr.min.css
 // Simple example, see optional options for more configuration.
 const pickr = Pickr.create({
     el: '.color-picker',
-    theme: 'classic', // or 'monolith', or 'nano'
+    theme: 'classic', // or 'monolith', 'nano' or 'wheel'
 
     swatches: [
         'rgba(244, 67, 54, 1)',
@@ -228,7 +228,7 @@ const pickr = new Pickr({
     // Where the pickr-app should be added as child.
     container: 'body',
 
-    // Which theme you want to use. Can be 'classic', 'monolith' or 'nano'
+    // Which theme you want to use. Can be 'classic', 'monolith', 'nano' or 'wheel'
     theme: 'classic',
 
     // Nested scrolling is currently not supported and as this would be really sophisticated to add this

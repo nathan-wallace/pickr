@@ -273,5 +273,18 @@
                 cursor: -webkit-grabbing;
             }
         }
+
+        .pcr-wheel {
+            display: none;
+            user-select: none;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0.75em;
+
+            svg {
+                width: 100%;
+                height: auto;
+            }
+        }
     }
 }

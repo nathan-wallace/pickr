@@ -8,7 +8,8 @@ module.exports = {
         'dist/pickr.es5.min': './src/js/pickr.js',
         'dist/themes/classic.min': './src/scss/themes/classic.scss',
         'dist/themes/nano.min': './src/scss/themes/nano.scss',
-        'dist/themes/monolith.min': './src/scss/themes/monolith.scss'
+        'dist/themes/monolith.min': './src/scss/themes/monolith.scss',
+        'dist/themes/wheel.min': './src/scss/themes/wheel.scss'
     },
 
     output: {
